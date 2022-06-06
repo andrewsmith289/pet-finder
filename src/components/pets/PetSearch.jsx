@@ -42,7 +42,7 @@ function PetSearch() {
       {pets.length > 0 && (
         <div>
           <button
-            onClick={() => dispatch({ type: 'CLEAR_USERS' })}
+            onClick={() => dispatch({ type: 'CLEAR_PETS' })}
             className='btn btn-ghost btn-lg'
           >
             Clear
