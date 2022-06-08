@@ -15,6 +15,6 @@ export const searchPets = async (text) => {
   })
 
   const res = await petfinder.get(`pets?${params}`)
-  console.log(res)
+
   return res.data.animals
 }
