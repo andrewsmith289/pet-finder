@@ -1,5 +1,11 @@
 const petfinderReducer = (state, action) => {
   switch (action.type) {
+    case 'GET_PET_TYPES':
+      return {
+        ...state,
+        petTypes: action.payload,
+        loading: false,
+      }
     case 'GET_PETS':
       return {
         ...state,

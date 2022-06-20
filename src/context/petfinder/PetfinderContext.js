@@ -6,6 +6,7 @@ const PetfinderContext = createContext()
 
 export const PetfinderProvider = ({ children }) => {
   const initialState = {
+    petTypes: [],
     pets: [],
     loading: false,
   }

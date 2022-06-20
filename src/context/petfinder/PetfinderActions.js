@@ -9,10 +9,17 @@ const petfinder = axios.create({
   },
 })
 
-export const searchPets = async (text) => {
+export const getPetTypes = async () => {
+  const res = await petfinder.get('types')
+
+  return res.data.types
+}
+
+export const searchPets = async ({ name, type }) => {
   const params = new URLSearchParams({
-    name: text,
+    name,
   })
+  type && params.append('type', type.toLowerCase())
 
   const res = await petfinder.get(`pets?${params}`)
 
