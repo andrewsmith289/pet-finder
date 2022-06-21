@@ -8,6 +8,7 @@ export const PetfinderProvider = ({ children }) => {
   const initialState = {
     petTypes: [],
     pets: [],
+    pet: {},
     loading: false,
   }
 

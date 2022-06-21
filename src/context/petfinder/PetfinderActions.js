@@ -24,3 +24,9 @@ export const getPets = async ({ name, type }) => {
 
   return res.data.animals
 }
+
+export const getPet = async (id) => {
+  const res = await petfinder.get(`pet/${id}`)
+
+  return res.data.animal
+}

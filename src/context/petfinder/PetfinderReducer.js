@@ -12,6 +12,13 @@ const petfinderReducer = (state, action) => {
         pets: action.payload,
         loading: false,
       }
+    case 'GET_PET': {
+      return {
+        ...state,
+        pet: action.payload,
+        loading: false,
+      }
+    }
     case 'SET_LOADING':
       return {
         ...state,
