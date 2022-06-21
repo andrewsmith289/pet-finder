@@ -15,7 +15,7 @@ export const getPetTypes = async () => {
   return res.data.types
 }
 
-export const searchPets = async ({ name, type }) => {
+export const getPets = async ({ name, type }) => {
   const params = new URLSearchParams()
   name && params.append('name', name)
   type && params.append('type', type.toLowerCase())

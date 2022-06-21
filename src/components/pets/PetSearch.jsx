@@ -1,9 +1,6 @@
 import { useState, useContext, useEffect } from 'react'
 import PetfinderContext from '../../context/petfinder/PetfinderContext'
-import {
-  getPetTypes,
-  searchPets,
-} from '../../context/petfinder/PetfinderActions'
+import { getPetTypes, getPets } from '../../context/petfinder/PetfinderActions'
 
 function PetSearch() {
   const [name, setName] = useState('')
@@ -18,9 +15,9 @@ function PetSearch() {
 
     const params = {
       type: petType === 'Any' ? undefined : petType,
-      name: name === '' ? undefined : petType,
+      name: name === '' ? undefined : name,
     }
-    const pets = await searchPets(params)
+    const pets = await getPets(params)
     dispatch({ type: 'GET_PETS', payload: pets })
     setName('')
   }
