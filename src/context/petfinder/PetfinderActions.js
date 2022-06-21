@@ -16,9 +16,8 @@ export const getPetTypes = async () => {
 }
 
 export const searchPets = async ({ name, type }) => {
-  const params = new URLSearchParams({
-    name,
-  })
+  const params = new URLSearchParams()
+  name && params.append('name', name)
   type && params.append('type', type.toLowerCase())
 
   const res = await petfinder.get(`pets?${params}`)

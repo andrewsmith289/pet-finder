@@ -4,7 +4,6 @@ import {
   getPetTypes,
   searchPets,
 } from '../../context/petfinder/PetfinderActions'
-import { stringify } from 'postcss'
 
 function PetSearch() {
   const [name, setName] = useState('')
@@ -18,11 +17,10 @@ function PetSearch() {
     dispatch({ type: 'SET_LOADING' })
 
     const params = {
-      type: petType,
-      name,
+      type: petType === 'Any' ? undefined : petType,
+      name: name === '' ? undefined : petType,
     }
     const pets = await searchPets(params)
-    console.log('Pets: ', pets)
     dispatch({ type: 'GET_PETS', payload: pets })
     setName('')
   }
@@ -70,6 +68,7 @@ function PetSearch() {
                 <option disabled selected>
                   Pick an animal type
                 </option>
+                <option>Any</option>
                 {petTypes.map((type, index) => {
                   return <option>{type.name}</option>
                 })}
