@@ -4,7 +4,11 @@ import { getPetTypes, getPets } from '../../context/petfinder/PetfinderActions'
 
 function PetSearch() {
   const [name, setName] = useState('')
+
   const [petType, setPetType] = useState('Pick an animal type')
+  const [selectedType, setSelectedType] = useState(0)
+
+  const [petColor, setPetColor] = useState('Pick a color')
 
   const { petTypes, pets, dispatch } = useContext(PetfinderContext)
 
@@ -32,9 +36,12 @@ function PetSearch() {
 
   const handleTextChange = (e) => setName(e.target.value)
 
-  const handleSelectChange = (e) => {
+  const handleTypeSelectChange = (e) => {
+    setSelectedType(e.target.selectedIndex - 2)
     setPetType(e.target.value)
   }
+
+  const handleColorSelectChange = (e) => {}
 
   return (
     <div className='max-w-lg mb-8 m-auto'>
@@ -59,19 +66,34 @@ function PetSearch() {
             <div className='input-group'>
               <select
                 className='select w-full max-w-xs'
-                value={petType}
-                onChange={handleSelectChange}
+                defaultValue={petType}
+                onChange={handleTypeSelectChange}
               >
-                <option disabled selected>
-                  Pick an animal type
-                </option>
+                <option disabled>Pick an animal type</option>
                 <option>Any</option>
                 {petTypes.map((type, index) => {
-                  return <option>{type.name}</option>
+                  return <option key={type.name}>{type.name}</option>
                 })}
               </select>
             </div>
           </div>
+          {petTypes.length > 0 && (
+            <div className='form-control'>
+              <div className='input-group'>
+                <select
+                  className='select w-full max-w-xs'
+                  defaultValue={petColor}
+                  onChange={handleColorSelectChange}
+                >
+                  <option disabled>Pick a color</option>
+                  <option>Any</option>
+                  {petTypes[selectedType].colors.map((color, index) => {
+                    return <option key={color}>{color}</option>
+                  })}
+                </select>
+              </div>
+            </div>
+          )}
         </form>
       </div>
       {pets.length > 0 && (
