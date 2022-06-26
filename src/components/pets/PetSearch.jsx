@@ -3,12 +3,15 @@ import PetfinderContext from '../../context/petfinder/PetfinderContext'
 import { getPetTypes, getPets } from '../../context/petfinder/PetfinderActions'
 
 function PetSearch() {
+  const DEFAULT_TYPE_TEXT = 'Pick an animal type'
+  const DEFAULT_COLOR_TEXT = 'Pick a color'
+
   const [name, setName] = useState('')
 
-  const [petType, setPetType] = useState('Pick an animal type')
-  const [selectedType, setSelectedType] = useState(0)
+  const [petType, setPetType] = useState(DEFAULT_TYPE_TEXT)
+  const [selectedType, setSelectedType] = useState(undefined)
 
-  const [petColor, setPetColor] = useState('Pick a color')
+  const [petColor, setPetColor] = useState(DEFAULT_COLOR_TEXT)
 
   const { petTypes, pets, dispatch } = useContext(PetfinderContext)
 
@@ -18,7 +21,14 @@ function PetSearch() {
     dispatch({ type: 'SET_LOADING' })
 
     const params = {
-      type: petType === 'Any' ? undefined : petType,
+      type:
+        petType === 'Any' || petType === DEFAULT_TYPE_TEXT
+          ? undefined
+          : petType,
+      color:
+        petColor === 'Any' || petColor === DEFAULT_COLOR_TEXT
+          ? undefined
+          : petColor,
       name: name === '' ? undefined : name,
     }
     const pets = await getPets(params)
@@ -37,11 +47,18 @@ function PetSearch() {
   const handleTextChange = (e) => setName(e.target.value)
 
   const handleTypeSelectChange = (e) => {
-    setSelectedType(e.target.selectedIndex - 2)
+    if (e.target.value === 'Any') {
+      setSelectedType(0)
+    } else {
+      setSelectedType(e.target.selectedIndex - 2)
+    }
+
     setPetType(e.target.value)
   }
 
-  const handleColorSelectChange = (e) => {}
+  const handleColorSelectChange = (e) => {
+    setPetColor(e.target.value)
+  }
 
   return (
     <div className='max-w-lg mb-8 m-auto'>
@@ -69,7 +86,7 @@ function PetSearch() {
                 defaultValue={petType}
                 onChange={handleTypeSelectChange}
               >
-                <option disabled>Pick an animal type</option>
+                <option disabled>{DEFAULT_TYPE_TEXT}</option>
                 <option>Any</option>
                 {petTypes.map((type, index) => {
                   return <option key={type.name}>{type.name}</option>
@@ -77,7 +94,7 @@ function PetSearch() {
               </select>
             </div>
           </div>
-          {petTypes.length > 0 && (
+          {selectedType !== undefined && (
             <div className='form-control'>
               <div className='input-group'>
                 <select
@@ -85,7 +102,7 @@ function PetSearch() {
                   defaultValue={petColor}
                   onChange={handleColorSelectChange}
                 >
-                  <option disabled>Pick a color</option>
+                  <option disabled>{DEFAULT_COLOR_TEXT}</option>
                   <option>Any</option>
                   {petTypes[selectedType].colors.map((color, index) => {
                     return <option key={color}>{color}</option>
